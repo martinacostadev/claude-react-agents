@@ -1,0 +1,13 @@
+{
+  "$schema": "https://claude.ai/schemas/settings.json",
+  "permissions": {
+    "allow": [
+      "WebFetch(localhost:*)",
+      "Bash(docker:*)"
+    ]
+  },
+  "env": {
+    "API_BASE_URL": "http://localhost:3000",
+    "DEBUG": "true"
+  }
+}

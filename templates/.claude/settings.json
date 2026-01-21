@@ -1,0 +1,66 @@
+{
+  "$schema": "https://claude.ai/schemas/settings.json",
+  "permissions": {
+    "allow": [
+      "Bash(npm run:*)",
+      "Bash(npx:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git status)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)",
+      "Bash(git branch:*)",
+      "Bash(gh pr:*)",
+      "Bash(gh issue:*)",
+      "Read(src/**)",
+      "Read(app/**)",
+      "Read(components/**)",
+      "Edit(src/**)",
+      "Edit(app/**)",
+      "Edit(components/**)",
+      "Write(src/**)",
+      "Write(app/**)",
+      "Write(components/**)"
+    ],
+    "deny": [
+      "Read(.env*)",
+      "Read(./secrets/**)",
+      "Read(**/*.pem)",
+      "Read(**/*.key)",
+      "Edit(.env*)",
+      "Edit(./secrets/**)",
+      "Write(.env*)",
+      "Bash(rm -rf:*)",
+      "Bash(sudo:*)",
+      "Bash(git push --force:*)",
+      "Bash(git reset --hard:*)"
+    ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node -e \"const f=process.argv[1]; if(/\\.(ts|tsx|js|jsx)$/.test(f)) { require('child_process').execSync('npx prettier --write ' + f, {stdio:'pipe'}); }\" \"$CLAUDE_PROJECT_DIR/$file_path\""
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node -e \"const p=JSON.parse(require('fs').readFileSync(0,'utf8')).tool_input.file_path||''; if(/\\.(env|pem|key)/.test(p)||p.includes('secret')){process.stderr.write('Blocked: Cannot modify sensitive files');process.exit(2)}\""
+          }
+        ]
+      }
+    ]
+  },
+  "env": {
+    "NODE_ENV": "development"
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "name": "claude-react-agents",
+  "version": "1.0.0",
+  "description": "Professional Claude Code configuration for React Next.js and React Native Expo projects",
+  "keywords": [
+    "claude",
+    "claude-code",
+    "react",
+    "nextjs",
+    "expo",
+    "react-native",
+    "ai",
+    "agents",
+    "cli"
+  ],
+  "author": "",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/claude-react-agents"
+  },
+  "bin": {
+    "claude-react-agents": "./bin/cli.js"
+  },
+  "files": [
+    "bin",
+    "templates",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "type": "module"
+}
